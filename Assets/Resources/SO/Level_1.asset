@@ -13,25 +13,36 @@ MonoBehaviour:
   m_Name: Level_1
   m_EditorClassIdentifier: 
   levels:
-  - knivesRequired: 4
-    bossRotationSpeed: 10
-  - knivesRequired: 5
-    bossRotationSpeed: 20
-  - knivesRequired: 6
+  - levelType: 0
+    knivesRequired: 4
     bossRotationSpeed: 50
-  - knivesRequired: 6
+  - levelType: 0
+    knivesRequired: 5
+    bossRotationSpeed: 60
+  - levelType: 0
+    knivesRequired: 6
+    bossRotationSpeed: 70
+  - levelType: 0
+    knivesRequired: 7
+    bossRotationSpeed: 80
+  - levelType: 1
+    knivesRequired: 8
+    bossRotationSpeed: 90
+  - levelType: 0
+    knivesRequired: 9
     bossRotationSpeed: 100
-  - knivesRequired: 7
-    bossRotationSpeed: 200
-  - knivesRequired: 7
-    bossRotationSpeed: 200
-  - knivesRequired: 7
-    bossRotationSpeed: 200
-  - knivesRequired: 7
-    bossRotationSpeed: 200
-  - knivesRequired: 7
-    bossRotationSpeed: 200
-  - knivesRequired: 7
-    bossRotationSpeed: 200
-  - knivesRequired: 7
+  - levelType: 0
+    knivesRequired: 10
+    bossRotationSpeed: 110
+  - levelType: 0
+    knivesRequired: 11
+    bossRotationSpeed: 120
+  - levelType: 0
+    knivesRequired: 12
+    bossRotationSpeed: 130
+  - levelType: 1
+    knivesRequired: 13
+    bossRotationSpeed: 150
+  - levelType: 1
+    knivesRequired: 15
     bossRotationSpeed: 200

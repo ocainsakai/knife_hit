@@ -10,6 +10,12 @@ public class LevelConfigs : ScriptableObject
 [System.Serializable]
 public class LevelData
 {
+    public LevelType levelType;
     public int knivesRequired;     
     public float bossRotationSpeed;
+}
+public enum LevelType
+{
+    Stage,
+    Boss
 }

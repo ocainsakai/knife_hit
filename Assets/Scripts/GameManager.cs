@@ -1,7 +1,5 @@
-using System;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +8,6 @@ public class GameManager : MonoBehaviour
     public LevelManager levelManager => GetComponent<LevelManager>();
     public UIManager uiManager => GetComponent<UIManager>();
     public Wood wood => FindFirstObjectByType<Wood>();
-
     private void Awake()
     {
         if (instance == null)
@@ -21,39 +18,46 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-   
+    private void Start()
+    {
+        if (levelManager == null) return;
+        Time.timeScale = 1f;
+        StartLevel(0);
+    }
     public void SetBoss(float speed, int bossHP)
     {
-        wood.Init(speed, bossHP);
+        wood.Init(speed, bossHP, 2, 2);
     }
     public void PauseGame()
     {
         Time.timeScale = 0f;
     }
-    public void StartGame()
+    public void UpdateLevel(float speed, int number, int level)
+    {
+        SetBoss(speed, number);
+        uiManager.SetMaxKnives(number);
+        uiManager.UpdateDots(level);
+        uiManager.SetStage(level);
+    }
+    public void StartLevel(int level)
     {
         Time.timeScale = 1f;
-
-        levelManager.StartLevel(0);
+        LevelData data = levelManager.InitLevel(level);
+        UpdateLevel(data.bossRotationSpeed, data.knivesRequired, level);
     }
-
-    public void LevelComplete()
+    public void NextLevel()
     {
-
-        //scoreManager.AddScore(1000);  
-        levelManager.StartLevel(levelManager.currentLevelIndex + 1);
+        StartLevel(levelManager.currentLevelIndex + 1);
     }
-
     public async void GameOver()
     {
         Debug.Log("Game Over! ");
 
-        await Task.Delay(1000);
+        await Task.Delay(500);
         uiManager.GameOverScene();
-        //PauseGame();
-        //RestartGame();
-
+        
     }
+   
     public void RestartGame()
     {
         //SoundManager.instance.PlaybtnSfx();

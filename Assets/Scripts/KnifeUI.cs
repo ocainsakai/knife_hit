@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,13 +8,6 @@ public class KnifeUI : MonoBehaviour
     [SerializeField] private Transform UIKnifeTemplate;
     [SerializeField] private List<Transform> Knives;
     public int knifeMax { get; private set; }
-
-
-    private void Awake()
-    {
-        UIKnifeTemplate = transform.Find("UIKnifeTemplate");
-        UIKnifeTemplate.gameObject.SetActive(false);
-    }
 
     private void ClearKnives()
     {
@@ -41,11 +33,11 @@ public class KnifeUI : MonoBehaviour
    
     public void UpdateUI(int knifeUsed)
     {
+        if (knifeUsed > knifeMax) { return; }
         for (int i = 0; i < knifeUsed; i++)
         {
             Knives[i].GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
         }
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
 }

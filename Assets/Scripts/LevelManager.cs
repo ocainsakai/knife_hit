@@ -6,7 +6,6 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
 
     public KnifeHolder knifeHolder => FindFirstObjectByType<KnifeHolder>();
-    [SerializeField] private KnifeUI ui => FindFirstObjectByType<KnifeUI>();
 
     [SerializeField] private LevelConfigs levelConfig;
     public int currentLevelIndex = 0;
@@ -14,7 +13,6 @@ public class LevelManager : MonoBehaviour
     private bool isEmptyKnife =>
         currentKnivesUsed == levelConfig.levels[currentLevelIndex].knivesRequired;
 
-    public event Action newLevel;
 
     private void Awake()
     {
@@ -22,10 +20,6 @@ public class LevelManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-    }
-    private void Start()
-    {
-        StartLevel(0);
     }
     private void Update()
     {
@@ -35,24 +29,20 @@ public class LevelManager : MonoBehaviour
         } 
     }
     
-    public void StartLevel(int levelIndex)
+    public LevelData InitLevel(int levelIndex)
     {
         Debug.Log(" level." + levelIndex);
         currentLevelIndex = levelIndex;
         currentKnivesUsed = 0;
         knifeHolder.DestroyKnives();
-
-        LevelData level = levelConfig.levels[currentLevelIndex];
-        GameManager.instance.SetBoss(level.bossRotationSpeed, level.knivesRequired);
-        newLevel?.Invoke();
-        ui.UpdateKnivesMax(level.knivesRequired);
+        return levelConfig.levels[currentLevelIndex];
     }
 
     public void OnKnifeHit()
     {
         knifeHolder.Fire();
         currentKnivesUsed++;
-        ui.UpdateUI(currentKnivesUsed);
-
+        Debug.Log("knive used " + currentKnivesUsed);
+        GameManager.instance.uiManager.UpdateKnives(currentKnivesUsed);
     }
 }
