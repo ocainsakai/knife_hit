@@ -41,7 +41,15 @@ public class Wood : MonoBehaviour
             currentSpeed = 0;
         }
     }
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Knife")
+        {
+            woodHealth.TakeDame();
+            collision.transform.SetParent(this.transform);
+            collision.gameObject.GetComponent<Knife>().Hitted();
+        }
+    }
     IEnumerator ChangeRotation()
     {
         while (true)
@@ -83,6 +91,7 @@ public class Wood : MonoBehaviour
             item.localRotation = Quaternion.Euler(0, 0, angle+90);
             item.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
             item.gameObject.SetActive(true);
+            item.GetComponent<ObjAbstract>().SetTag();
         }
     }
 

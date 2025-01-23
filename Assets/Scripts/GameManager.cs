@@ -45,8 +45,9 @@ public class GameManager : MonoBehaviour
         LevelData data = levelManager.InitLevel(level);
         UpdateLevel(data.bossRotationSpeed, data.knivesRequired, level);
     }
-    public void NextLevel()
+    public async void NextLevel()
     {
+        await Task.Delay(300);
         StartLevel(levelManager.currentLevelIndex + 1);
     }
     public async void GameOver()

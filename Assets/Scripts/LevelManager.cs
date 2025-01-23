@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -34,10 +36,19 @@ public class LevelManager : MonoBehaviour
         Debug.Log(" level." + levelIndex);
         currentLevelIndex = levelIndex;
         currentKnivesUsed = 0;
-        knifeHolder.DestroyKnives();
+        DestroyItem();
         return levelConfig.levels[currentLevelIndex];
     }
 
+    private void DestroyItem()
+    {
+        List<ObjAbstract> items = new List<ObjAbstract>();
+        items.AddRange(FindObjectsByType<ObjAbstract>(FindObjectsSortMode.None));
+        foreach (ObjAbstract item in items)
+        {
+            Destroy(item.gameObject);
+        }
+    }
     public void OnKnifeHit()
     {
         knifeHolder.Fire();

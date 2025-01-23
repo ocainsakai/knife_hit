@@ -1,51 +1,40 @@
 ﻿using System;
 using UnityEngine;
-[RequireComponent(typeof(Rigidbody2D))]
 
-public class Knife : MonoBehaviour
+public class Knife : ObjAbstract
 {
     public float speed = 10f;
-
-    private Rigidbody2D _rb;
-    private Collider2D _col;
     public float bounceForce => 1.5f*speed;
     public event Action OnKnifeHitWood;
-    private bool _hitted = false;
     private void Awake()
     {
-        _col = GetComponent<Collider2D>();
-        _rb = GetComponent<Rigidbody2D>();
         _rb.bodyType = RigidbodyType2D.Dynamic;
         _rb.gravityScale = 0f;
-        _hitted = false; 
+        this.gameObject.tag = "Knife";
     }
-    private void Start()
+    public void SetSpeed()
     {
         _rb.linearVelocityY = speed;
     }
+    public override void SetTag()
+    {
+        this.gameObject.tag = "Obstacle";
+        _rb.freezeRotation = true;
+    }
+    public void Hitted()
+    {
+        SetTag();
+        OnKnifeHitWood?.Invoke();
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (_hitted) return;
 
-        switch (collision.gameObject.GetComponent<MonoBehaviour>())
+        if (collision.gameObject.tag == "Obstacle")
         {
-            case Knife:
-                Bounce(collision);
-                GameManager.instance.GameOver();
-                break;
-            case Wood:
-                Wood wood = collision.gameObject.GetComponent<Wood>();
-                wood.woodHealth.TakeDame();
-                OnKnifeHitWood?.Invoke();
-                transform.SetParent(collision.transform);
-                _rb.bodyType = RigidbodyType2D.Kinematic;
-                break;
-            case Apple:
-
-                break;
-            
+            Bounce(collision);
+            GameManager.instance.GameOver();
         }
-        _hitted = true;
+           
     }
  
     private void Bounce(Collision2D collision)
